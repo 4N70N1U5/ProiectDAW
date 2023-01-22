@@ -53,7 +53,7 @@ namespace ProiectDAW.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ProiectDAW.Models.Payment", b =>
@@ -82,7 +82,7 @@ namespace ProiectDAW.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("ProiectDAW.Models.Publisher", b =>
@@ -103,7 +103,7 @@ namespace ProiectDAW.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publishers");
+                    b.ToTable("Publishers", (string)null);
                 });
 
             modelBuilder.Entity("ProiectDAW.Models.User", b =>
@@ -140,7 +140,7 @@ namespace ProiectDAW.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ProiectDAW.Models.Order", b =>

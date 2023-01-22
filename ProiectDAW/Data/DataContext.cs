@@ -10,5 +10,6 @@ namespace ProiectDAW.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<VideoGame> VideoGames { get; set; }
     }
 }
