@@ -5,6 +5,6 @@ namespace ProiectDAW.Repositories.UsersRepository
 {
     public interface IUsersRepository : IGenericRepository<User>
     {
-        Task<User> GetByUserNameAsync(string userName);
+        User GetByUserName(string userName);
     }
 }

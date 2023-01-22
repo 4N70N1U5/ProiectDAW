@@ -7,9 +7,9 @@ namespace ProiectDAW.Repositories.UsersRepository
     {
         public UsersRepository(DataContext context) : base(context) { }
 
-        public async Task<User> GetByUserNameAsync(string userName)
+        public User GetByUserName(string userName)
         {
-            return await _table.FirstOrDefaultAsync(x => x.UserName == userName);
+            return _table.FirstOrDefault(x => x.UserName == userName);
         }
     }
 }
