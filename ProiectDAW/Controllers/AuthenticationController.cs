@@ -20,7 +20,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost("register-customer")]
-        public async Task<ActionResult<List<User>>> RegisterCustomer(UserRequestDTO request)
+        public async Task<ActionResult<User>> RegisterCustomer(UserRequestDTO request)
         {
             var newUser = new User
             {
@@ -36,11 +36,11 @@ namespace ProiectDAW.Controllers
 
             await _usersService.Register(newUser);
 
-            return Ok(await _usersService.GetUsers());
+            return Ok(newUser);
         }
 
         [HttpPost("register-admin")]
-        public async Task<ActionResult<List<User>>> RegisterAdmin(UserRequestDTO request)
+        public async Task<ActionResult<User>> RegisterAdmin(UserRequestDTO request)
         {
             var newUser = new User
             {
@@ -56,7 +56,7 @@ namespace ProiectDAW.Controllers
 
             await _usersService.Register(newUser);
 
-            return Ok(await _usersService.GetUsers());
+            return Ok(newUser);
         }
 
         [HttpPost("login")]
