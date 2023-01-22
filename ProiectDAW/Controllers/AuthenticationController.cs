@@ -29,12 +29,14 @@ namespace ProiectDAW.Controllers
                 LastName = request.LastName,
                 Email = request.Email,
                 PasswordHash = BCryptNet.HashPassword(request.Password),
-                Role = Role.Customer
+                Role = Role.Customer,
+                DateCreated = DateTime.UtcNow,
+                DateModified = DateTime.UtcNow
             };
 
             await _usersService.Register(newUser);
 
-            return Ok(_usersService.GetUsers());
+            return Ok(await _usersService.GetUsers());
         }
 
         [HttpPost("register-admin")]
@@ -47,12 +49,14 @@ namespace ProiectDAW.Controllers
                 LastName = request.LastName,
                 Email = request.Email,
                 PasswordHash = BCryptNet.HashPassword(request.Password),
-                Role = Role.Admin
+                Role = Role.Admin,
+                DateCreated = DateTime.UtcNow,
+                DateModified = DateTime.UtcNow
             };
 
             await _usersService.Register(newUser);
 
-            return Ok(_usersService.GetUsers());
+            return Ok(await _usersService.GetUsers());
         }
 
         [HttpPost("login")]
