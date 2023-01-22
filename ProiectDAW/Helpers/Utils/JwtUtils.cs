@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ProiectDAW.Helpers.JwtUtils
+namespace ProiectDAW.Helpers.Utils
 {
     public class JwtUtils : IJwtUtils
     {

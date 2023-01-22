@@ -1,6 +1,6 @@
 ﻿using ProiectDAW.Models;
 using ProiectDAW.Models.DTOs.UserDTOs;
-using ProiectDAW.Helpers.JwtUtils;
+using ProiectDAW.Helpers.Utils;
 using ProiectDAW.Repositories.UsersRepository;
 using BCryptNet = BCrypt.Net.BCrypt;
 

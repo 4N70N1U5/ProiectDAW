@@ -1,6 +1,6 @@
 ﻿using ProiectDAW.Models;
 
-namespace ProiectDAW.Helpers.JwtUtils
+namespace ProiectDAW.Helpers.Utils
 {
     public interface IJwtUtils
     {
