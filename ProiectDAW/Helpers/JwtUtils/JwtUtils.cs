@@ -44,9 +44,8 @@ namespace ProiectDAW.Helpers.JwtUtils
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey= new SymmetricSecurityKey(appPrivateKey),
-                ValidateIssuer = true,
-                ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero
+                ValidateIssuer = false,
+                ValidateAudience = false
             };
 
             try
