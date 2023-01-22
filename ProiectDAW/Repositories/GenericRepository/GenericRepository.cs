@@ -5,8 +5,8 @@ namespace ProiectDAW.Repositories.GenericRepository
 {
     public class GenericRepository<TemplateEntity> : IGenericRepository<TemplateEntity> where TemplateEntity : BaseEntity
     {
-        private readonly DataContext _context;
-        private readonly DbSet<TemplateEntity> _table;
+        protected readonly DataContext _context;
+        protected readonly DbSet<TemplateEntity> _table;
 
         public GenericRepository(DataContext context)
         {
