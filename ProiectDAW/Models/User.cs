@@ -1,4 +1,5 @@
 ﻿using ProiectDAW.Models.Base;
+using ProiectDAW.Models.Enum;
 
 namespace ProiectDAW.Models
 {
@@ -9,6 +10,7 @@ namespace ProiectDAW.Models
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
+        public Role Role { get; set; }
         public List<Order> Orders { get; set; }
     }
 }
