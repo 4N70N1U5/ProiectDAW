@@ -17,12 +17,12 @@ namespace ProiectDAW.Services.UsersService
             _jwtUtils = jwtUtils;
         }
 
-        public UserResponseDTO Authenticate(UserRequestDTO request)
+        public UserResponseDTO Authenticate(string userName, string password)
         {
-            var user = _usersRepository.GetByUserName(request.UserName);
+            var user = _usersRepository.GetByUserName(userName);
 
             if (user == null) return null;
-            if (!BCryptNet.Verify(request.Password, user.PasswordHash)) return null;
+            if (!BCryptNet.Verify(password, user.PasswordHash)) return null;
 
             var jwtToken = _jwtUtils.GenerateJwtToken(user);
 
@@ -43,6 +43,11 @@ namespace ProiectDAW.Services.UsersService
         public async Task<User> GetUserById(Guid id)
         {
             return await _usersRepository.GetByIdAsync(id);
+        }
+
+        public Task<List<User>> MakeAdmin(string userName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

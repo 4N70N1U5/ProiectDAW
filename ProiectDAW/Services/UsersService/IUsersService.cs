@@ -5,7 +5,7 @@ namespace ProiectDAW.Services.UsersService
 {
     public interface IUsersService
     {
-        UserResponseDTO Authenticate(UserRequestDTO request);
+        UserResponseDTO Authenticate(string userName, string password);
 
         // Create
         Task Register(User user);
@@ -13,5 +13,8 @@ namespace ProiectDAW.Services.UsersService
         // Read
         Task<List<User>> GetUsers();
         Task<User> GetUserById(Guid id);
+
+        // Update
+        Task<List<User>> MakeAdmin(string userName);
     }
 }
