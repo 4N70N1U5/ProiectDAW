@@ -60,7 +60,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(string userName, string password)
+        public ActionResult<string> Login(string userName, string password)
         {
             var response = _usersService.Authenticate(userName, password);
 

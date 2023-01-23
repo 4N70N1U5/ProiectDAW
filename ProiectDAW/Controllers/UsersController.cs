@@ -18,14 +18,14 @@ namespace ProiectDAW.Controllers
             _usersService = usersService;
         }
 
-        [HttpGet("display-info-all-users"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<User>>> DisplayAllUsers()
+        [HttpGet("get-info-all"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<User>>> GetAll()
         {
             return await _usersService.GetAllUsers();
         }
 
-        [HttpGet("display-info-current-user"), Authorize]
-        public async Task<ActionResult<User>> DisplayCurrentUser()
+        [HttpGet("get-info-current"), Authorize]
+        public async Task<ActionResult<User>> GetCurrent()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -39,7 +39,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("make-customer"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<User>> MakeUserCustomer(string userName)
+        public async Task<ActionResult<User>> MakeCustomer(string userName)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -53,7 +53,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("make-admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<User>> MakeUserAdmin(string userName)
+        public async Task<ActionResult<User>> MakeAdmin(string userName)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -66,8 +66,8 @@ namespace ProiectDAW.Controllers
             return Ok(await _usersService.GetUserById(response));
         }
 
-        [HttpDelete("delete-user"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<User>>> DeleteUser(string userName)
+        [HttpDelete("delete"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<User>>> Delete(string userName)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
