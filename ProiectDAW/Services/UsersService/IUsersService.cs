@@ -5,7 +5,7 @@ namespace ProiectDAW.Services.UsersService
 {
     public interface IUsersService
     {
-        UserResponseDTO Authenticate(string userName, string password);
+        UserResponseDTO Authenticate(string username, string password);
 
         Guid GetCurrentUserId(string jwtToken);
 
@@ -17,10 +17,10 @@ namespace ProiectDAW.Services.UsersService
         Task<User> GetUserById(Guid id);
 
         // Update
-        Task<Guid> MakeCustomer(string userName, string jwtToken);
-        Task<Guid> MakeAdmin(string userName, string jwtToken);
+        Task<Guid> MakeCustomer(string username, string jwtToken);
+        Task<Guid> MakeAdmin(string username, string jwtToken);
 
         // Delete
-        Task<List<User>> DeleteUser(string userName, string jwtToken);
+        Task<List<User>> DeleteUser(string username, string jwtToken);
     }
 }

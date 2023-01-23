@@ -39,13 +39,13 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("make-customer"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<User>> MakeCustomer(string userName)
+        public async Task<ActionResult<User>> MakeCustomer(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
             if (currentUserToken == null) return BadRequest("Token is null!");
 
-            var response = await _usersService.MakeCustomer(userName, currentUserToken);
+            var response = await _usersService.MakeCustomer(username, currentUserToken);
 
             if (response == Guid.Empty) return BadRequest("Something went wrong!");
 
@@ -53,13 +53,13 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("make-admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<User>> MakeAdmin(string userName)
+        public async Task<ActionResult<User>> MakeAdmin(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
             if (currentUserToken == null) return BadRequest("Token is null!");
 
-            var response = await _usersService.MakeAdmin(userName, currentUserToken);
+            var response = await _usersService.MakeAdmin(username, currentUserToken);
 
             if (response == Guid.Empty) return BadRequest("Something went wrong!");
 
@@ -67,13 +67,13 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpDelete("delete"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<User>>> Delete(string userName)
+        public async Task<ActionResult<List<User>>> Delete(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
             if (currentUserToken == null) return BadRequest("Token is null!");
 
-            var response = await _usersService.DeleteUser(userName, currentUserToken);
+            var response = await _usersService.DeleteUser(username, currentUserToken);
 
             if (response == null) return BadRequest("Something went wrong!");
 

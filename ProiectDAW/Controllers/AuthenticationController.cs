@@ -24,7 +24,7 @@ namespace ProiectDAW.Controllers
         {
             var newUser = new User
             {
-                UserName = request.UserName,
+                Username = request.Username,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -44,7 +44,7 @@ namespace ProiectDAW.Controllers
         {
             var newUser = new User
             {
-                UserName = request.UserName,
+                Username = request.Username,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -60,9 +60,9 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<string> Login(string userName, string password)
+        public ActionResult<string> Login(string username, string password)
         {
-            var response = _usersService.Authenticate(userName, password);
+            var response = _usersService.Authenticate(username, password);
 
             if (response == null) return BadRequest("Wrong username or password!");
 

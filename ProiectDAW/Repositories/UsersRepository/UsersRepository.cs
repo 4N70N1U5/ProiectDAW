@@ -7,9 +7,9 @@ namespace ProiectDAW.Repositories.UsersRepository
     {
         public UsersRepository(DataContext context) : base(context) { }
 
-        public User GetByUserName(string userName)
+        public User GetByUsername(string username)
         {
-            return _table.FirstOrDefault(x => x.UserName == userName);
+            return _table.FirstOrDefault(x => x.Username == username);
         }
     }
 }

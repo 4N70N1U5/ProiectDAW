@@ -18,9 +18,9 @@ namespace ProiectDAW.Services.UsersService
             _jwtUtils = jwtUtils;
         }
 
-        public UserResponseDTO Authenticate(string userName, string password)
+        public UserResponseDTO Authenticate(string username, string password)
         {
-            var user = _usersRepository.GetByUserName(userName);
+            var user = _usersRepository.GetByUsername(username);
 
             if (user == null) return null;
             if (!BCryptNet.Verify(password, user.PasswordHash)) return null;
@@ -53,13 +53,13 @@ namespace ProiectDAW.Services.UsersService
             return await _usersRepository.GetByIdAsync(id);
         }
 
-        public async Task<Guid> MakeCustomer(string userName, string jwtToken)
+        public async Task<Guid> MakeCustomer(string username, string jwtToken)
         {
             var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
 
             if (currentUserId == Guid.Empty) return Guid.Empty;
 
-            var userToEdit = _usersRepository.GetByUserName(userName);
+            var userToEdit = _usersRepository.GetByUsername(username);
 
             if (userToEdit == null) return Guid.Empty;
 
@@ -75,13 +75,13 @@ namespace ProiectDAW.Services.UsersService
             return userToEdit.Id;
         }
 
-        public async Task<Guid> MakeAdmin(string userName, string jwtToken)
+        public async Task<Guid> MakeAdmin(string username, string jwtToken)
         {
             var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
 
             if (currentUserId == Guid.Empty) return Guid.Empty;
 
-            var userToEdit = _usersRepository.GetByUserName(userName);
+            var userToEdit = _usersRepository.GetByUsername(username);
 
             if (userToEdit == null) return Guid.Empty;
 
@@ -97,13 +97,13 @@ namespace ProiectDAW.Services.UsersService
             return userToEdit.Id;
         }
 
-        public async Task<List<User>> DeleteUser(string userName, string jwtToken)
+        public async Task<List<User>> DeleteUser(string username, string jwtToken)
         {
             var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
 
             if (currentUserId == Guid.Empty) return null;
 
-            var userToDelete = _usersRepository.GetByUserName(userName);
+            var userToDelete = _usersRepository.GetByUsername(username);
 
             if (userToDelete == null) return null;
 

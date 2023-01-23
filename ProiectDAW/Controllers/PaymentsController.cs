@@ -27,6 +27,7 @@ namespace ProiectDAW.Controllers
                 CardIssuer = request.CardIssuer,
                 CardNumber = request.CardNumber,
                 CardType = request.CardType,
+                OrderId = request.OrderId,
                 DateCreated = DateTime.UtcNow,
                 DateModified = DateTime.UtcNow
             };

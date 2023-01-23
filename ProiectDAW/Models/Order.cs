@@ -9,7 +9,6 @@ namespace ProiectDAW.Models
         public User User { get; set; }
         public Guid UserId { get; set; }
         public Payment Payment { get; set; }
-        public Guid PaymentId { get; set; }
-        public List<VideoGame> VideoGames { get; set; }
+        public List<OrderVideoGame> VideoGames { get; set; }
     }
 }
