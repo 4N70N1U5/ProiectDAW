@@ -13,8 +13,11 @@ namespace ProiectDAW.Services.UsersService
         Task Register(User user);
 
         // Read
-        Task<List<User>> GetAllUsers();
-        Task<User> GetUserById(Guid id);
+        Task<List<UserGetDTO>> GetAllUsers();
+        Task<UserGetDTO> GetUserById(Guid id);
+
+        Task<List<UserGetInfoDTO>> GetInfoAllUsers();
+        Task<UserGetInfoDTO> GetInfoUserById(Guid id);
 
         // Update
         Task<Guid> MakeCustomer(string username, string jwtToken);

@@ -20,13 +20,13 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpGet("get-all"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<Payment>>> GetAll()
+        public async Task<ActionResult<List<PaymentGetDTO>>> GetAll()
         {
             return Ok(await _paymentsService.GetAllPayments());
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<Payment>> CreatePayment(PaymentDTO request)
+        public async Task<ActionResult<Payment>> CreatePayment(PaymentCreateDTO request)
         {
             var newPayment = new Payment()
             {
@@ -44,7 +44,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult<Payment>> Edit(Guid id, PaymentDTO request)
+        public async Task<ActionResult<Payment>> Edit(Guid id, PaymentCreateDTO request)
         {
             var payment = new Payment()
             {

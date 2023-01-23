@@ -1,4 +1,5 @@
-﻿using ProiectDAW.Models;
+﻿using AutoMapper;
+using ProiectDAW.Models;
 using ProiectDAW.Models.DTOs.PaymentDTOs;
 using ProiectDAW.Repositories.PaymentsRepository;
 
@@ -7,10 +8,12 @@ namespace ProiectDAW.Services.PaymentsService
     public class PaymentsService : IPaymentsService
     {
         private readonly IPaymentsRepository _paymentsRepository;
+        private readonly IMapper _mapper;
 
-        public PaymentsService(IPaymentsRepository paymentsRepository)
+        public PaymentsService(IPaymentsRepository paymentsRepository, IMapper mapper)
         {
             _paymentsRepository = paymentsRepository;
+            _mapper = mapper;
         }
 
         public async Task CreatePayment(Payment payment)
@@ -19,9 +22,11 @@ namespace ProiectDAW.Services.PaymentsService
             await _paymentsRepository.SaveAsync();
         }
 
-        public async Task<List<Payment>> GetAllPayments()
+        public async Task<List<PaymentGetDTO>> GetAllPayments()
         {
-            return await _paymentsRepository.GetAllAsync();
+            var payments = await _paymentsRepository.GetAllAsync();
+            List<PaymentGetDTO> result = _mapper.Map<List<PaymentGetDTO>>(payments);
+            return result;
         }
 
         public async Task<Payment> GetPaymentById(Guid id)
@@ -74,7 +79,7 @@ namespace ProiectDAW.Services.PaymentsService
             _paymentsRepository.Delete(paymentToDelete);
             await _paymentsRepository.SaveAsync();
 
-            return await GetAllPayments();
+            return await _paymentsRepository.GetAllAsync();
         }
     }
 }

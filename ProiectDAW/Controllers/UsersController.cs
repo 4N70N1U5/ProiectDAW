@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProiectDAW.Models;
+using ProiectDAW.Models.DTOs.UserDTOs;
 using ProiectDAW.Services.UsersService;
 
 namespace ProiectDAW.Controllers
@@ -18,14 +19,14 @@ namespace ProiectDAW.Controllers
             _usersService = usersService;
         }
 
-        [HttpGet("get-info-all"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<User>>> GetAll()
+        [HttpGet("get-all"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<UserGetDTO>>> GetAll()
         {
             return await _usersService.GetAllUsers();
         }
 
-        [HttpGet("get-info-current"), Authorize]
-        public async Task<ActionResult<User>> GetCurrent()
+        [HttpGet("get-current"), Authorize]
+        public async Task<ActionResult<UserGetDTO>> GetCurrent()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -36,6 +37,26 @@ namespace ProiectDAW.Controllers
             if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
 
             return await _usersService.GetUserById(currentUserId);
+        }
+
+        [HttpGet("get-info-all"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<UserGetInfoDTO>>> GetInfoAll()
+        {
+            return await _usersService.GetInfoAllUsers();
+        }
+
+        [HttpGet("get-info-current"), Authorize]
+        public async Task<ActionResult<UserGetInfoDTO>> GetInfoCurrent()
+        {
+            var currentUserToken = await HttpContext.GetTokenAsync("access_token");
+
+            if (currentUserToken == null) return BadRequest("Token is null!");
+
+            var currentUserId = _usersService.GetCurrentUserId(currentUserToken);
+
+            if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
+
+            return await _usersService.GetInfoUserById(currentUserId);
         }
 
         [HttpPut("make-customer"), Authorize(Roles = "Admin")]

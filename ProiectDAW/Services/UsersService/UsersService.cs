@@ -4,6 +4,7 @@ using ProiectDAW.Models.DTOs.UserDTOs;
 using ProiectDAW.Helpers.Utils;
 using ProiectDAW.Repositories.UsersRepository;
 using BCryptNet = BCrypt.Net.BCrypt;
+using AutoMapper;
 
 namespace ProiectDAW.Services.UsersService
 {
@@ -11,11 +12,13 @@ namespace ProiectDAW.Services.UsersService
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IJwtUtils _jwtUtils;
+        private readonly IMapper _mapper;
 
-        public UsersService(IUsersRepository usersRepository, IJwtUtils jwtUtils)
+        public UsersService(IUsersRepository usersRepository, IJwtUtils jwtUtils, IMapper mapper)
         {
             _usersRepository = usersRepository;
             _jwtUtils = jwtUtils;
+            _mapper = mapper;
         }
 
         public UserResponseDTO Authenticate(string username, string password)
@@ -43,15 +46,32 @@ namespace ProiectDAW.Services.UsersService
             await _usersRepository.SaveAsync();
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<UserGetDTO>> GetAllUsers()
         {
-            return await _usersRepository.GetAllIncludeOrders();
-            // return await _usersRepository.GetAllAsync();
+            var users = await _usersRepository.GetAllAsync();
+            List<UserGetDTO> result = _mapper.Map<List<UserGetDTO>>(users);
+            return result;
         }
 
-        public async Task<User> GetUserById(Guid id)
+        public async Task<UserGetDTO> GetUserById(Guid id)
         {
-            return await _usersRepository.GetByIdAsync(id);
+            var user = await _usersRepository.GetByIdAsync(id);
+            UserGetDTO result = _mapper.Map<UserGetDTO>(user);
+            return result;
+        }
+
+        public async Task<List<UserGetInfoDTO>> GetInfoAllUsers()
+        {
+            var users = await _usersRepository.GetAllIncludeOrders();
+            List<UserGetInfoDTO> result = _mapper.Map<List<UserGetInfoDTO>>(users); 
+            return result;
+        }
+
+        public async Task<UserGetInfoDTO> GetInfoUserById(Guid id)
+        {
+            var user = await _usersRepository.GetByIdIncludeOrders(id);
+            UserGetInfoDTO result = _mapper.Map<UserGetInfoDTO>(user);
+            return result;
         }
 
         public async Task<Guid> MakeCustomer(string username, string jwtToken)
@@ -114,7 +134,7 @@ namespace ProiectDAW.Services.UsersService
 
             await _usersRepository.SaveAsync();
 
-            return await GetAllUsers();
+            return await _usersRepository.GetAllAsync();
         }
     }
 }

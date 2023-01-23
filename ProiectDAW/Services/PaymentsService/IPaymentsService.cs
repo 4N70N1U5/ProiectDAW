@@ -9,7 +9,7 @@ namespace ProiectDAW.Services.PaymentsService
         Task CreatePayment(Payment payment);
 
         // Read
-        Task<List<Payment>> GetAllPayments();
+        Task<List<PaymentGetDTO>> GetAllPayments();
         Task<Payment> GetPaymentById(Guid id);
         Task<List<Payment>> GetPaymentsByCardIssuer(string cardIssuer);
         Task<List<Payment>> GetPaymentsByCardType(string cardType);
