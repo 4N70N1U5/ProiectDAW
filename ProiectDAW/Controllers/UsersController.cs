@@ -39,7 +39,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("make-customer"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult> MakeCustomer(string username)
+        public async Task<ActionResult<User>> MakeCustomer(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -49,11 +49,11 @@ namespace ProiectDAW.Controllers
 
             if (response == Guid.Empty) return BadRequest("Something went wrong!");
 
-            return Ok("User is now a customer.");
+            return Ok(await _usersService.GetUserById(response));
         }
 
         [HttpPut("make-admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult> MakeAdmin(string username)
+        public async Task<ActionResult<User>> MakeAdmin(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -63,11 +63,11 @@ namespace ProiectDAW.Controllers
 
             if (response == Guid.Empty) return BadRequest("Something went wrong!");
 
-            return Ok("User is now an admin.");
+            return Ok(await _usersService.GetUserById(response));
         }
 
         [HttpDelete("delete"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Delete(string username)
+        public async Task<ActionResult<List<User>>> Delete(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -77,7 +77,7 @@ namespace ProiectDAW.Controllers
 
             if (response == null) return BadRequest("Something went wrong!");
 
-            return Ok("User deleted");
+            return Ok(await _usersService.GetAllUsers());
         }
     }
 }

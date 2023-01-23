@@ -26,7 +26,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> CreatePayment(PaymentDTO request)
+        public async Task<ActionResult<Payment>> CreatePayment(PaymentDTO request)
         {
             var newPayment = new Payment()
             {
@@ -40,11 +40,11 @@ namespace ProiectDAW.Controllers
 
             await _paymentsService.CreatePayment(newPayment);
 
-            return Ok("Payment added.");
+            return Ok(newPayment);
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult> Edit(Guid id, PaymentDTO request)
+        public async Task<ActionResult<Payment>> Edit(Guid id, PaymentDTO request)
         {
             var payment = new Payment()
             {
@@ -57,17 +57,17 @@ namespace ProiectDAW.Controllers
 
             if (response == null) return BadRequest("Invalid ID");
 
-            return Ok("Payment modified.");
+            return Ok(response);
         }
 
         [HttpDelete("delete")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult<List<Payment>>> Delete(Guid id)
         {
             var response = await _paymentsService.DeletePayment(id);
 
             if (response == null) return BadRequest("Invalid ID");
 
-            return Ok("Payment deleted");
+            return Ok(response);
         }
     }
 }
