@@ -17,6 +17,10 @@ namespace ProiectDAW.Services.UsersService
         Task<User> GetUserById(Guid id);
 
         // Update
-        Task<User> MakeAdmin(string userName);
+        Task<Guid> MakeCustomer(string userName, string jwtToken);
+        Task<Guid> MakeAdmin(string userName, string jwtToken);
+
+        // Delete
+        Task<List<User>> DeleteUser(string userName, string jwtToken);
     }
 }

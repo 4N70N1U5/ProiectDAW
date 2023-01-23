@@ -29,6 +29,8 @@ namespace ProiectDAW.Controllers
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
+            if (currentUserToken == null) return BadRequest("Token is null!");
+
             var currentUserId = _usersService.GetCurrentUserId(currentUserToken);
 
             if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
@@ -36,10 +38,46 @@ namespace ProiectDAW.Controllers
             return await _usersService.GetUserById(currentUserId);
         }
 
-        //[HttpPut("make-user-admin"), Authorize(Roles = "Admin")]
-        //public async Task<ActionResult<User>> MakeUserAdmin(string userName)
-        //{
+        [HttpPut("make-customer"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<User>> MakeUserCustomer(string userName)
+        {
+            var currentUserToken = await HttpContext.GetTokenAsync("access_token");
 
-        //}
+            if (currentUserToken == null) return BadRequest("Token is null!");
+
+            var response = await _usersService.MakeCustomer(userName, currentUserToken);
+
+            if (response == Guid.Empty) return BadRequest("Something went wrong!");
+
+            return Ok(await _usersService.GetUserById(response));
+        }
+
+        [HttpPut("make-admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<User>> MakeUserAdmin(string userName)
+        {
+            var currentUserToken = await HttpContext.GetTokenAsync("access_token");
+
+            if (currentUserToken == null) return BadRequest("Token is null!");
+
+            var response = await _usersService.MakeAdmin(userName, currentUserToken);
+
+            if (response == Guid.Empty) return BadRequest("Something went wrong!");
+
+            return Ok(await _usersService.GetUserById(response));
+        }
+
+        [HttpDelete("delete-user"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<User>>> DeleteUser(string userName)
+        {
+            var currentUserToken = await HttpContext.GetTokenAsync("access_token");
+
+            if (currentUserToken == null) return BadRequest("Token is null!");
+
+            var response = await _usersService.DeleteUser(userName, currentUserToken);
+
+            if (response == null) return BadRequest("Something went wrong!");
+
+            return Ok(response);
+        }
     }
 }

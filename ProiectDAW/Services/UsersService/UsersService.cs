@@ -1,4 +1,5 @@
 ﻿using ProiectDAW.Models;
+using ProiectDAW.Models.Enum;
 using ProiectDAW.Models.DTOs.UserDTOs;
 using ProiectDAW.Helpers.Utils;
 using ProiectDAW.Repositories.UsersRepository;
@@ -52,9 +53,67 @@ namespace ProiectDAW.Services.UsersService
             return await _usersRepository.GetByIdAsync(id);
         }
 
-        public Task<User> MakeAdmin(string userName)
+        public async Task<Guid> MakeCustomer(string userName, string jwtToken)
         {
-            throw new NotImplementedException();
+            var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
+
+            if (currentUserId == Guid.Empty) return Guid.Empty;
+
+            var userToEdit = _usersRepository.GetByUserName(userName);
+
+            if (userToEdit == null) return Guid.Empty;
+
+            if (userToEdit.Id == currentUserId) return Guid.Empty;
+
+            if (userToEdit.Role == Role.Customer) return Guid.Empty;
+
+            userToEdit.Role = Role.Customer;
+            userToEdit.DateModified = DateTime.UtcNow;
+
+            await _usersRepository.SaveAsync();
+
+            return userToEdit.Id;
+        }
+
+        public async Task<Guid> MakeAdmin(string userName, string jwtToken)
+        {
+            var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
+
+            if (currentUserId == Guid.Empty) return Guid.Empty;
+
+            var userToEdit = _usersRepository.GetByUserName(userName);
+
+            if (userToEdit == null) return Guid.Empty;
+
+            if (userToEdit.Id == currentUserId) return Guid.Empty;
+
+            if (userToEdit.Role == Role.Admin) return Guid.Empty;
+
+            userToEdit.Role = Role.Admin;
+            userToEdit.DateModified = DateTime.UtcNow;
+
+            await _usersRepository.SaveAsync();
+
+            return userToEdit.Id;
+        }
+
+        public async Task<List<User>> DeleteUser(string userName, string jwtToken)
+        {
+            var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
+
+            if (currentUserId == Guid.Empty) return null;
+
+            var userToDelete = _usersRepository.GetByUserName(userName);
+
+            if (userToDelete == null) return null;
+
+            if (userToDelete.Id == currentUserId) return null;
+
+            _usersRepository.Delete(userToDelete);
+
+            await _usersRepository.SaveAsync();
+
+            return await GetAllUsers();
         }
     }
 }
