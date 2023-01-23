@@ -1,5 +1,7 @@
 ﻿using ProiectDAW.Helpers.Utils;
+using ProiectDAW.Repositories.PaymentsRepository;
 using ProiectDAW.Repositories.UsersRepository;
+using ProiectDAW.Services.PaymentsService;
 using ProiectDAW.Services.UsersService;
 
 namespace ProiectDAW.Helpers
@@ -9,6 +11,7 @@ namespace ProiectDAW.Helpers
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<IPaymentsRepository, PaymentsRepository>();
 
             return services;
         }
@@ -16,6 +19,7 @@ namespace ProiectDAW.Helpers
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IPaymentsService, PaymentsService>();
 
             return services;
         }
