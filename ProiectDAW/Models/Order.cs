@@ -1,4 +1,5 @@
 ﻿using ProiectDAW.Models.Base;
+using System.Text.Json.Serialization;
 
 namespace ProiectDAW.Models
 {
@@ -6,6 +7,7 @@ namespace ProiectDAW.Models
     {
         public DateTime PurchaseDate { get; set; }
         public int OrderTotal { get; set; }
+        [JsonIgnore]
         public User User { get; set; }
         public Guid UserId { get; set; }
         public Payment Payment { get; set; }

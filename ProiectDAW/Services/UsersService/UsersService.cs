@@ -45,7 +45,8 @@ namespace ProiectDAW.Services.UsersService
 
         public async Task<List<User>> GetAllUsers()
         {
-            return await _usersRepository.GetAllAsync();
+            return await _usersRepository.GetAllIncludeOrders();
+            // return await _usersRepository.GetAllAsync();
         }
 
         public async Task<User> GetUserById(Guid id)

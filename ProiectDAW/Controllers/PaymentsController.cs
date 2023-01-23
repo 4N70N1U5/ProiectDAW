@@ -19,8 +19,14 @@ namespace ProiectDAW.Controllers
             _paymentsService = paymentsService;
         }
 
+        [HttpGet("get-all"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<Payment>>> GetAll()
+        {
+            return Ok(await _paymentsService.GetAllPayments());
+        }
+
         [HttpPost("create")]
-        public async Task<ActionResult<Payment>> CreatePayment(PaymentDTO request)
+        public async Task<ActionResult> CreatePayment(PaymentDTO request)
         {
             var newPayment = new Payment()
             {
@@ -34,17 +40,11 @@ namespace ProiectDAW.Controllers
 
             await _paymentsService.CreatePayment(newPayment);
 
-            return Ok(newPayment);
-        }
-
-        [HttpGet("get-all"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<Payment>>> GetAll()
-        {
-            return Ok(await _paymentsService.GetAllPayments());
+            return Ok("Payment added.");
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult<Payment>> Edit(Guid id, PaymentDTO request)
+        public async Task<ActionResult> Edit(Guid id, PaymentDTO request)
         {
             var payment = new Payment()
             {
@@ -57,17 +57,17 @@ namespace ProiectDAW.Controllers
 
             if (response == null) return BadRequest("Invalid ID");
 
-            return Ok(response);
+            return Ok("Payment modified.");
         }
 
         [HttpDelete("delete")]
-        public async Task<ActionResult<List<Payment>>> Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             var response = await _paymentsService.DeletePayment(id);
 
             if (response == null) return BadRequest("Invalid ID");
 
-            return Ok(response);
+            return Ok("Payment deleted");
         }
     }
 }

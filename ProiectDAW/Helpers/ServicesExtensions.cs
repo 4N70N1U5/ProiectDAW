@@ -1,6 +1,8 @@
 ﻿using ProiectDAW.Helpers.Utils;
+using ProiectDAW.Repositories.OrdersRepository;
 using ProiectDAW.Repositories.PaymentsRepository;
 using ProiectDAW.Repositories.UsersRepository;
+using ProiectDAW.Services.OrdersService;
 using ProiectDAW.Services.PaymentsService;
 using ProiectDAW.Services.UsersService;
 
@@ -12,6 +14,7 @@ namespace ProiectDAW.Helpers
         {
             services.AddTransient<IUsersRepository, UsersRepository>();
             services.AddTransient<IPaymentsRepository, PaymentsRepository>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
 
             return services;
         }
@@ -20,6 +23,7 @@ namespace ProiectDAW.Helpers
         {
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IPaymentsService, PaymentsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             return services;
         }
