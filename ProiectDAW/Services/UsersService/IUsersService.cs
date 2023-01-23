@@ -7,14 +7,16 @@ namespace ProiectDAW.Services.UsersService
     {
         UserResponseDTO Authenticate(string userName, string password);
 
+        Guid GetCurrentUserId(string jwtToken);
+
         // Create
         Task Register(User user);
 
         // Read
-        Task<List<User>> GetUsers();
+        Task<List<User>> GetAllUsers();
         Task<User> GetUserById(Guid id);
 
         // Update
-        Task<List<User>> MakeAdmin(string userName);
+        Task<User> MakeAdmin(string userName);
     }
 }

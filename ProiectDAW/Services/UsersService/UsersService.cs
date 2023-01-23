@@ -29,13 +29,20 @@ namespace ProiectDAW.Services.UsersService
             return new UserResponseDTO(user, jwtToken);
         }
 
+        public Guid GetCurrentUserId(string jwtToken)
+        {
+            var currentUserId = _jwtUtils.ValidateJwtToken(jwtToken);
+
+            return currentUserId;
+        }
+
         public async Task Register(User user)
         {
             await _usersRepository.CreateAsync(user);
             await _usersRepository.SaveAsync();
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<List<User>> GetAllUsers()
         {
             return await _usersRepository.GetAllAsync();
         }
@@ -45,7 +52,7 @@ namespace ProiectDAW.Services.UsersService
             return await _usersRepository.GetByIdAsync(id);
         }
 
-        public Task<List<User>> MakeAdmin(string userName)
+        public Task<User> MakeAdmin(string userName)
         {
             throw new NotImplementedException();
         }
