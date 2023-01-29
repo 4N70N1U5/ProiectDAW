@@ -44,16 +44,9 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult<Payment>> Edit(Guid id, PaymentCreateDTO request)
+        public async Task<ActionResult<Payment>> Edit(Guid id, PaymentEditDTO request)
         {
-            var payment = new Payment()
-            {
-                CardIssuer = request.CardIssuer,
-                CardNumber = request.CardNumber,
-                CardType = request.CardType
-            };
-
-            var response = await _paymentsService.UpdatePayment(id, payment);
+            var response = await _paymentsService.UpdatePayment(id, request);
 
             if (response == null) return BadRequest("Invalid ID");
 

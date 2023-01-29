@@ -17,7 +17,7 @@ namespace ProiectDAW.Services.PaymentsService
         Task<List<Payment>> GetPaymentsByUserId(Guid userId);
 
         // Update
-        Task<Payment> UpdatePayment(Guid id, Payment payment);
+        Task<Payment> UpdatePayment(Guid id, PaymentEditDTO payment);
 
         // Delete
         Task<List<Payment>> DeletePayment(Guid id);

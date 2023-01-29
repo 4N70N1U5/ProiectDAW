@@ -54,15 +54,15 @@ namespace ProiectDAW.Services.PaymentsService
             throw new NotImplementedException();
         }
 
-        public async Task<Payment> UpdatePayment(Guid id, Payment payment)
+        public async Task<Payment> UpdatePayment(Guid id, PaymentEditDTO request)
         {
-            var paymentToEdit = await GetPaymentById(id);
+            var paymentToEdit = await _paymentsRepository.GetByIdAsync(id);
 
             if (paymentToEdit == null) return null;
 
-            paymentToEdit.CardIssuer = payment.CardIssuer;
-            paymentToEdit.CardNumber = payment.CardNumber;
-            paymentToEdit.CardType = payment.CardType;
+            paymentToEdit.CardIssuer = request.CardIssuer;
+            paymentToEdit.CardNumber = request.CardNumber;
+            paymentToEdit.CardType = request.CardType;
             paymentToEdit.DateModified = DateTime.UtcNow;
 
             await _paymentsRepository.SaveAsync();
@@ -72,7 +72,7 @@ namespace ProiectDAW.Services.PaymentsService
 
         public async Task<List<Payment>> DeletePayment(Guid id)
         {
-            var paymentToDelete = await GetPaymentById(id);
+            var paymentToDelete = await _paymentsRepository.GetByIdAsync(id);
 
             if (paymentToDelete == null) return null;
 
