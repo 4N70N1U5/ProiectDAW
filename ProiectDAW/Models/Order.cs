@@ -7,10 +7,9 @@ namespace ProiectDAW.Models
     {
         public DateTime PurchaseDate { get; set; }
         public int OrderTotal { get; set; }
-        // [JsonIgnore]
-        public User User { get; set; }
+        public User User { get; set; } = new User();
         public Guid UserId { get; set; }
-        public Payment Payment { get; set; }
-        public List<OrderVideoGame> VideoGames { get; set; }
+        public Payment Payment { get; set; } = new Payment();
+        public List<OrderVideoGame> VideoGames { get; set; } = new List<OrderVideoGame> { };
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProiectDAW.Models;
 using ProiectDAW.Models.DTOs.PaymentDTOs;
 using ProiectDAW.Services.PaymentsService;
-using System.ComponentModel.DataAnnotations;
 
 namespace ProiectDAW.Controllers
 {
@@ -43,7 +42,7 @@ namespace ProiectDAW.Controllers
             return Ok(newPayment);
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit-payment")]
         public async Task<ActionResult<Payment>> Edit(Guid id, PaymentEditDTO request)
         {
             var response = await _paymentsService.UpdatePayment(id, request);
@@ -53,7 +52,7 @@ namespace ProiectDAW.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("remove-payment")]
         public async Task<ActionResult<List<Payment>>> Delete(Guid id)
         {
             var response = await _paymentsService.DeletePayment(id);

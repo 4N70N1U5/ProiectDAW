@@ -6,6 +6,6 @@
         public string CardIssuer { get; set; } = string.Empty; 
         public string CardNumber { get; set; } = string.Empty;
         public string CardType { get; set; } = string.Empty;
-        // public Guid OrderId { get; set; }
+        public Guid OrderId { get; set; }
     }
 }
