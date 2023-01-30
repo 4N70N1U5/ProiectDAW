@@ -7,5 +7,9 @@ namespace ProiectDAW.Services.VideoGameService
     {
         public Task CreateVideoGame(VideoGame videoGame);
         public Task<List<VideoGameGetDTO>> GetVideoGames();
+
+        public Task<VideoGame> UpdateVideoGame(Guid id, VideoGameEditDTO videoGame);
+
+        public Task<List<VideoGame>> DeleteVideoGame(Guid id);
     }
 }

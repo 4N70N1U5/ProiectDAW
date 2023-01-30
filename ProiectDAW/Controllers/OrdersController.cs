@@ -23,13 +23,37 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpGet("get-all"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<Order>>> GetAllOrders()
+        public async Task<ActionResult<List<OrderGetDTO>>> GetAllOrders()
         {
             return await _ordersService.GetOrders();
         }
 
-        [HttpPost("create"), Authorize]
-        public async Task<ActionResult<Order>> CreateOrder()
+        [HttpGet("get-all-with-details"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<OrderGetInfoDTO>>> GetAllOrdersWithDetails()
+        {
+            return await _ordersService.GetOrdersInfo();
+        }
+
+
+        [HttpPost("new-order"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Order>> NewOrder(OrderCreateDTO request)
+        {
+            var newOrder = new Order()
+            {
+                PurchaseDate = request.PurchaseDate,
+                OrderTotal = 0,
+                UserId = request.UserId,
+                DateCreated = DateTime.UtcNow,
+                DateModified = DateTime.UtcNow
+            };
+
+            await _ordersService.CreateOrder(newOrder);
+
+            return Ok(newOrder);
+        }
+
+        [HttpPost("new-order-current-user"), Authorize]
+        public async Task<ActionResult<Order>> NewOrderCurrent()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
             if (currentUserToken == null) return BadRequest("Token is null!");
@@ -49,6 +73,26 @@ namespace ProiectDAW.Controllers
             await _ordersService.CreateOrder(newOrder);
 
             return Ok(newOrder);
+        }
+
+        [HttpPut("edit-order"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Order>> EditOrder(Guid id, OrderEditDTO request)
+        {
+            var response = await _ordersService.EditOrder(id, request);
+
+            if (response == null) return BadRequest("Invalid ID");
+
+            return Ok(response);
+        }
+
+        [HttpDelete("delete-order"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Order>> DeleteOrder(Guid id)
+        {
+            var response = await _ordersService.DeleteOrder(id);
+
+            if (response == null) return BadRequest("Invalid ID");
+
+            return Ok(response);
         }
     }
 }

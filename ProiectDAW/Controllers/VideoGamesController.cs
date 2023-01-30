@@ -21,7 +21,7 @@ namespace ProiectDAW.Controllers
         [HttpGet("get-all-games")]
         public async Task<ActionResult<List<VideoGameGetDTO>>> GetAllGames()
         {
-            return Ok(_videoGamesService.GetVideoGames());
+            return Ok(await _videoGamesService.GetVideoGames());
         }
 
         [HttpPost("add-new-game"), Authorize(Roles = "Admin")]
@@ -30,7 +30,7 @@ namespace ProiectDAW.Controllers
             var newVideoGame = new VideoGame()
             {
                 Title = request.Title,
-                ReleaseDate = request.ReleaseDate,
+                ReleaseDate = request.ReleaseDate.ToDateTime(TimeOnly.MinValue),
                 Price = request.Price,
                 PublisherId = request.PublisherId,
                 DateCreated = DateTime.UtcNow,
@@ -39,9 +39,27 @@ namespace ProiectDAW.Controllers
 
             await _videoGamesService.CreateVideoGame(newVideoGame);
 
-            return Ok(_videoGamesService.GetVideoGames());
+            return Ok(await _videoGamesService.GetVideoGames());
         }
 
+        [HttpPut("edit-game"), Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditGame(Guid id, VideoGameEditDTO request)
+        {
+            var response = await _videoGamesService.UpdateVideoGame(id, request);
 
+            if (response == null) return BadRequest("Invalid ID!");
+
+            return Ok(response);
+        }
+
+        [HttpDelete("delete-game"), Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteGame(Guid id)
+        {
+            var response = await _videoGamesService.DeleteVideoGame(id);
+
+            if (response == null) return BadRequest("Invalid ID!");
+
+            return Ok(response);
+        }
     }
 }

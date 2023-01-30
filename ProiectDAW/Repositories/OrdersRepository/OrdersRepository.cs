@@ -7,9 +7,9 @@ namespace ProiectDAW.Repositories.OrdersRepository
     {
         public OrdersRepository(DataContext context) : base(context) { }
 
-        public async Task<List<Order>> GetAllIncludePayment()
+        public async Task<List<Order>> GetAllIncludeInfo()
         {
-            return await _table.Include(o => o.Payment).ToListAsync();
+            return await _table.Include(o => o.Payment).Include(o => o.User).ToListAsync();
         }
 
         public Task<List<Order>> GetByPurchaseDate(DateOnly date)
