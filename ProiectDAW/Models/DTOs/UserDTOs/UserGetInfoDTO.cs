@@ -12,6 +12,6 @@ namespace ProiectDAW.Models.DTOs.UserDTOs
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public Role Role { get; set; }
-        public List<OrderGetInfoPaymentDTO> Orders { get; set; } = new List<OrderGetInfoPaymentDTO>();
+        public List<OrderGetInfoPaymentDTO> Orders { get; set; } // = new List<OrderGetInfoPaymentDTO>();
     }
 }

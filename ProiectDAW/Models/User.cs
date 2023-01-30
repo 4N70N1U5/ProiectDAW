@@ -12,6 +12,6 @@ namespace ProiectDAW.Models
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public Role Role { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<Order> Orders { get; set; } // = new List<Order>();
     }
 }

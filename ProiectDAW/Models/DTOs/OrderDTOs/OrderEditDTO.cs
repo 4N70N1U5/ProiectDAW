@@ -1,8 +1,7 @@
 ﻿namespace ProiectDAW.Models.DTOs.OrderDTOs
 {
-    public class OrderCreateDTO
+    public class OrderEditDTO
     {
         public DateTime PurchaseDate { get; set; }
-        public Guid UserId { get; set; }
     }
 }
