@@ -27,6 +27,7 @@ namespace ProiectDAW.Helpers
             CreateMap<Publisher, PublisherGetInfoDTO>();
 
             CreateMap<VideoGame, VideoGameGetDTO>();
+            CreateMap<VideoGame, VideoGameGetInfoDTO>();
         }
     }
 }

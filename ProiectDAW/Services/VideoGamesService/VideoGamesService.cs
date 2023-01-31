@@ -16,10 +16,39 @@ namespace ProiectDAW.Services.VideoGameService
             _mapper = mapper;
         }
 
-        public async Task CreateVideoGame(VideoGame videoGame)
+        public async Task CreateVideoGame(VideoGame request)
         {
-            await _videoGamesRepository.CreateAsync(videoGame);
+            await _videoGamesRepository.CreateAsync(request);
             await _videoGamesRepository.SaveAsync();
+        }
+
+        public async Task<List<VideoGameGetDTO>> GetVideoGames()
+        {
+            var videoGames = await _videoGamesRepository.GetAllAsync();
+            List<VideoGameGetDTO> result = _mapper.Map<List<VideoGameGetDTO>>(videoGames);
+            return result;
+        }
+
+        public async Task<List<VideoGameGetInfoDTO>> GetVideoGamesWithInfo()
+        {
+            var videoGames = await _videoGamesRepository.GetAllWithInfoAsync();
+            List<VideoGameGetInfoDTO> result = _mapper.Map<List<VideoGameGetInfoDTO>>(videoGames);
+            return result;
+        }
+
+        public async Task<VideoGame> UpdateVideoGame(Guid id, VideoGameEditDTO request)
+        {
+            var gameToEdit = await _videoGamesRepository.GetByIdAsync(id);
+
+            if (gameToEdit == null) return null;
+
+            gameToEdit.Title = request.Title;
+            gameToEdit.Price = request.Price;
+            gameToEdit.DateModified = DateTime.UtcNow;
+
+            await _videoGamesRepository.SaveAsync();
+
+            return gameToEdit;
         }
 
         public async Task<List<VideoGame>> DeleteVideoGame(Guid id)
@@ -33,28 +62,6 @@ namespace ProiectDAW.Services.VideoGameService
             await _videoGamesRepository.SaveAsync();
 
             return await _videoGamesRepository.GetAllAsync();
-        }
-
-        public async Task<List<VideoGameGetDTO>> GetVideoGames()
-        {
-            var videoGames = await _videoGamesRepository.GetAllAsync();
-            List<VideoGameGetDTO> result = _mapper.Map<List<VideoGameGetDTO>>(videoGames);
-            return result;
-        }
-
-        public async Task<VideoGame> UpdateVideoGame(Guid id, VideoGameEditDTO videoGame)
-        {
-            var gameToEdit = await _videoGamesRepository.GetByIdAsync(id);
-
-            if (gameToEdit == null) return null;
-
-            gameToEdit.Title = videoGame.Title;
-            gameToEdit.Price = videoGame.Price;
-            gameToEdit.DateModified = DateTime.UtcNow;
-
-            await _videoGamesRepository.SaveAsync();
-
-            return gameToEdit;
         }
     }
 }

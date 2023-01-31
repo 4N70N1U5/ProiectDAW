@@ -5,5 +5,6 @@ namespace ProiectDAW.Repositories.VideoGamesRepository
 {
     public interface IVideoGamesRepository : IGenericRepository<VideoGame>
     {
+        Task<List<VideoGame>> GetAllWithInfoAsync();
     }
 }

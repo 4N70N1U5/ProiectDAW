@@ -5,11 +5,17 @@ namespace ProiectDAW.Services.VideoGameService
 {
     public interface IVideoGamesService
     {
-        public Task CreateVideoGame(VideoGame videoGame);
-        public Task<List<VideoGameGetDTO>> GetVideoGames();
+        // Create
+        Task CreateVideoGame(VideoGame request);
 
-        public Task<VideoGame> UpdateVideoGame(Guid id, VideoGameEditDTO videoGame);
+        // Read
+        Task<List<VideoGameGetDTO>> GetVideoGames();
+        Task<List<VideoGameGetInfoDTO>> GetVideoGamesWithInfo();
 
-        public Task<List<VideoGame>> DeleteVideoGame(Guid id);
+        // Update
+        Task<VideoGame> UpdateVideoGame(Guid id, VideoGameEditDTO request);
+
+        // Delete
+        Task<List<VideoGame>> DeleteVideoGame(Guid id);
     }
 }
