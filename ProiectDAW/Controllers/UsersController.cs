@@ -39,13 +39,13 @@ namespace ProiectDAW.Controllers
             return await _usersService.GetUserById(currentUserId);
         }
 
-        [HttpGet("get-info-all"), Authorize(Roles = "Admin")]
+        [HttpGet("get-all-with-details"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserGetInfoDTO>>> GetInfoAll()
         {
             return await _usersService.GetInfoAllUsers();
         }
 
-        [HttpGet("get-info-current"), Authorize]
+        [HttpGet("get-current-with-details"), Authorize]
         public async Task<ActionResult<UserGetInfoDTO>> GetInfoCurrent()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
@@ -87,7 +87,7 @@ namespace ProiectDAW.Controllers
             return Ok(await _usersService.GetUserById(response));
         }
 
-        [HttpDelete("delete"), Authorize(Roles = "Admin")]
+        [HttpDelete("delete-user"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> Delete(string username)
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");

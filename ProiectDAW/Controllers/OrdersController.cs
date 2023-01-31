@@ -31,9 +31,26 @@ namespace ProiectDAW.Controllers
         [HttpGet("get-all-with-details"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OrderGetInfoDTO>>> GetAllOrdersWithDetails()
         {
-            return await _ordersService.GetOrdersInfo();
+            return await _ordersService.GetOrdersWithInfo();
         }
 
+        [HttpGet("get-all-with-details/user/{id}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsUserId(Guid id)
+        {
+            return await _ordersService.GetOrdersWithInfoByUserId(id);
+        }
+
+        [HttpGet("get-all-with-details/current-user"), Authorize]
+        public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsCurrentUser()
+        {
+            var currentUserToken = await HttpContext.GetTokenAsync("access_token");
+            if (currentUserToken == null) return BadRequest("Token is null!");
+
+            var currentUserId = _jwtUtils.ValidateJwtToken(currentUserToken);
+            if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
+
+            return await _ordersService.GetOrdersWithInfoByUserId(currentUserId);
+        }
 
         [HttpPost("new-order"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Order>> NewOrder(OrderCreateDTO request)
@@ -53,7 +70,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost("new-order-current-user"), Authorize]
-        public async Task<ActionResult<Order>> NewOrderCurrent()
+        public async Task<ActionResult<Order>> NewOrderCurrentUser()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
             if (currentUserToken == null) return BadRequest("Token is null!");
@@ -78,7 +95,7 @@ namespace ProiectDAW.Controllers
         [HttpPut("edit-order"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Order>> EditOrder(Guid id, OrderEditDTO request)
         {
-            var response = await _ordersService.EditOrder(id, request);
+            var response = await _ordersService.UpdateOrder(id, request);
 
             if (response == null) return BadRequest("Invalid ID");
 

@@ -18,13 +18,13 @@ namespace ProiectDAW.Controllers
             _publishersService = publishersService;
         }
 
-        [HttpGet("get-names-all")]
+        [HttpGet("get-all")]
         public async Task<ActionResult<List<PublisherGetDTO>>> GetNames() 
         {
             return await _publishersService.GetPublishers();
         }
 
-        [HttpPost("add-new"), Authorize(Roles = "Admin")]
+        [HttpPost("new-publisher"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Publisher>> Add(PublisherCreateEditDTO request)
         {
             var newPublisher = new Publisher()
@@ -49,7 +49,7 @@ namespace ProiectDAW.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("remove-publisher"), Authorize(Roles = "Admin")]
+        [HttpDelete("delete-publisher"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Publisher>>> Delete(Guid id)
         {
             var response = await _publishersService.DeletePublisher(id);
