@@ -21,13 +21,13 @@ namespace ProiectDAW.Controllers
         [HttpGet("get-all")]
         public async Task<ActionResult<List<PublisherGetDTO>>> GetAll() 
         {
-            return await _publishersService.GetPublishers();
+            return Ok(await _publishersService.GetPublishers());
         }
 
         [HttpGet("get-all-with-details")]
         public async Task<ActionResult<List<PublisherGetInfoDTO>>> GetAllWithDetails()
         {
-            return await _publishersService.GetPublishersWithInfo();
+            return Ok(await _publishersService.GetPublishersWithInfo());
         }
 
         [HttpPost("new-publisher"), Authorize(Roles = "Admin")]
@@ -42,7 +42,7 @@ namespace ProiectDAW.Controllers
 
             await _publishersService.CreatePublisher(newPublisher);
 
-            return newPublisher;
+            return Ok(newPublisher);
         }
 
         [HttpPut("edit-publisher"), Authorize(Roles = "Admin")]

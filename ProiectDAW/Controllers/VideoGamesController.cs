@@ -19,13 +19,19 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<ActionResult<List<VideoGameGetDTO>>> GetAllGames()
+        public async Task<ActionResult<List<VideoGameGetDTO>>> GetAll()
         {
             return Ok(await _videoGamesService.GetVideoGames());
         }
 
+        [HttpGet("get-all-with-details")]
+        public async Task<ActionResult<List<VideoGameGetInfoDTO>>> GetAllWithInfo()
+        {
+            return Ok(await _videoGamesService.GetVideoGamesWithInfo());
+        }
+
         [HttpPost("new-game"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<VideoGameGetDTO>>> AddNewGame(VideoGameCreateDTO request)
+        public async Task<ActionResult<List<VideoGameGetDTO>>> NewGame(VideoGameCreateDTO request)
         {
             var newVideoGame = new VideoGame()
             {

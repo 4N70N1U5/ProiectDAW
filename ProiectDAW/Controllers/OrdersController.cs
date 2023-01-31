@@ -25,22 +25,22 @@ namespace ProiectDAW.Controllers
         [HttpGet("get-all"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OrderGetDTO>>> GetAllOrders()
         {
-            return await _ordersService.GetOrders();
+            return Ok(await _ordersService.GetOrders());
         }
 
         [HttpGet("get-all-with-details"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OrderGetInfoDTO>>> GetAllOrdersWithDetails()
         {
-            return await _ordersService.GetOrdersWithInfo();
+            return Ok(await _ordersService.GetOrdersWithInfo());
         }
 
-        [HttpGet("get-all-with-details/user/{id}"), Authorize(Roles = "Admin")]
+        [HttpGet("get-details/user/{id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsUserId(Guid id)
         {
-            return await _ordersService.GetOrdersWithInfoByUserId(id);
+            return Ok(await _ordersService.GetOrdersWithInfoByUserId(id));
         }
 
-        [HttpGet("get-all-with-details/current-user"), Authorize]
+        [HttpGet("get-details/current-user"), Authorize]
         public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsCurrentUser()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");
@@ -49,7 +49,7 @@ namespace ProiectDAW.Controllers
             var currentUserId = _jwtUtils.ValidateJwtToken(currentUserToken);
             if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
 
-            return await _ordersService.GetOrdersWithInfoByUserId(currentUserId);
+            return Ok(await _ordersService.GetOrdersWithInfoByUserId(currentUserId));
         }
 
         [HttpPost("new-order"), Authorize(Roles = "Admin")]

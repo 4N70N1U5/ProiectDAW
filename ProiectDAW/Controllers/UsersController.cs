@@ -22,7 +22,7 @@ namespace ProiectDAW.Controllers
         [HttpGet("get-all"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserGetDTO>>> GetAll()
         {
-            return await _usersService.GetAllUsers();
+            return Ok(await _usersService.GetAllUsers());
         }
 
         [HttpGet("get-current"), Authorize]
@@ -36,13 +36,13 @@ namespace ProiectDAW.Controllers
 
             if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
 
-            return await _usersService.GetUserById(currentUserId);
+            return Ok(await _usersService.GetUserById(currentUserId));
         }
 
         [HttpGet("get-all-with-details"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserGetInfoDTO>>> GetInfoAll()
         {
-            return await _usersService.GetInfoAllUsers();
+            return Ok(await _usersService.GetInfoAllUsers());
         }
 
         [HttpGet("get-current-with-details"), Authorize]
@@ -56,7 +56,7 @@ namespace ProiectDAW.Controllers
 
             if (currentUserId == Guid.Empty) return BadRequest("JWT Token Validation failed!");
 
-            return await _usersService.GetInfoUserById(currentUserId);
+            return Ok(await _usersService.GetInfoUserById(currentUserId));
         }
 
         [HttpPut("make-customer"), Authorize(Roles = "Admin")]
