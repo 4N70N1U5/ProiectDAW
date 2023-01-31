@@ -30,6 +30,12 @@ namespace ProiectDAW.Controllers
             return Ok(await _videoGamesService.GetVideoGamesWithInfo());
         }
 
+        [HttpGet("get-all-with-copies-sold"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<VideoGameCopiesDTO>>> GetAllWithCopiesSold()
+        {
+            return Ok(await _videoGamesService.GetVideoGamesWithCopiesSold());
+        }
+
         [HttpPost("new-game"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<VideoGameGetDTO>>> NewGame(VideoGameCreateDTO request)
         {

@@ -12,6 +12,7 @@ namespace ProiectDAW.Services.VideoGameService
         Task<List<VideoGameGetDTO>> GetVideoGames();
         Task<VideoGame> GetVideoGameById(Guid id);
         Task<List<VideoGameGetInfoDTO>> GetVideoGamesWithInfo();
+        Task<List<VideoGameCopiesDTO>> GetVideoGamesWithCopiesSold();
 
         // Update
         Task<VideoGame> UpdateVideoGame(Guid id, VideoGameEditDTO request);
