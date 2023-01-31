@@ -34,13 +34,13 @@ namespace ProiectDAW.Controllers
             return Ok(await _ordersService.GetOrdersWithInfo());
         }
 
-        [HttpGet("get-details/user/{username}"), Authorize(Roles = "Admin")]
+        [HttpGet("get-all-with-details/user/{username}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsUserId(string username)
         {
             return Ok(await _ordersService.GetOrdersWithInfoByUsername(username));
         }
 
-        [HttpGet("get-details/current-user"), Authorize]
+        [HttpGet("get-all-with-details/current-user"), Authorize]
         public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsCurrentUser()
         {
             var currentUserToken = await HttpContext.GetTokenAsync("access_token");

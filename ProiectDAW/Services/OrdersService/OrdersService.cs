@@ -73,7 +73,7 @@ namespace ProiectDAW.Services.OrdersService
             _ordersRepository.Delete(orderToDelete);
             await _ordersRepository.SaveAsync();
 
-            return (await _ordersRepository.GetAllAsync()).ToList();
+            return (await _ordersRepository.GetAllAsync());
         }
     }
 }
