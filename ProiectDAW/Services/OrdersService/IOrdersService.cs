@@ -12,6 +12,7 @@ namespace ProiectDAW.Services.OrdersService
         Task<List<OrderGetDTO>> GetOrders();
         Task<List<OrderGetInfoDTO>> GetOrdersWithInfo();
         Task<List<OrderGetInfoPaymentDTO>> GetOrdersWithInfoByUserId(Guid userId);
+        Task<List<OrderGetInfoPaymentDTO>> GetOrdersWithInfoByUsername(string username);
 
         // Update
         Task<Order> UpdateOrder(Guid id, OrderEditDTO request);

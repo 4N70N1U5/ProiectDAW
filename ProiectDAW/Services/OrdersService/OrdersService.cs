@@ -43,6 +43,13 @@ namespace ProiectDAW.Services.OrdersService
             return result;
         }
 
+        public async Task<List<OrderGetInfoPaymentDTO>> GetOrdersWithInfoByUsername(string username)
+        {
+            var orders = await _ordersRepository.GetByUsernameWithInfoAsync(username);
+            List<OrderGetInfoPaymentDTO> result = _mapper.Map<List<OrderGetInfoPaymentDTO>>(orders);
+            return result;
+        }
+
         public async Task<Order> UpdateOrder(Guid id, OrderEditDTO request)
         {
             var orderToEdit = await _ordersRepository.GetByIdAsync(id);

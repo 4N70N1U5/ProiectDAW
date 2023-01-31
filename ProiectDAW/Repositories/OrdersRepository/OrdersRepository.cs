@@ -20,5 +20,14 @@ namespace ProiectDAW.Repositories.OrdersRepository
 
             return await result.ToListAsync();
         }
+
+        public async Task<List<Order>> GetByUsernameWithInfoAsync(string username)
+        {
+            var result = from order in _table.Include(o => o.Payment)
+                         where order.User.Username == username
+                         select order;
+
+            return await result.ToListAsync();
+        }
     }
 }

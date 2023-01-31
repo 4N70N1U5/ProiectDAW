@@ -8,5 +8,6 @@ namespace ProiectDAW.Repositories.OrdersRepository
         // Read
         Task<List<Order>> GetAllWithInfoAsync();
         Task<List<Order>> GetByUserIdWithInfoAsync(Guid userId);
+        Task<List<Order>> GetByUsernameWithInfoAsync(string username);
     }
 }

@@ -34,10 +34,10 @@ namespace ProiectDAW.Controllers
             return Ok(await _ordersService.GetOrdersWithInfo());
         }
 
-        [HttpGet("get-details/user/{id}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsUserId(Guid id)
+        [HttpGet("get-details/user/{username}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<OrderGetInfoPaymentDTO>>> GetAllOrdersWithDetailsUserId(string username)
         {
-            return Ok(await _ordersService.GetOrdersWithInfoByUserId(id));
+            return Ok(await _ordersService.GetOrdersWithInfoByUsername(username));
         }
 
         [HttpGet("get-details/current-user"), Authorize]
