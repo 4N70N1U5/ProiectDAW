@@ -7,24 +7,9 @@ namespace ProiectDAW.Repositories.PaymentsRepository
     {
         public PaymentsRepository(DataContext context) : base(context) { }
 
-        public List<Payment> GetByCardIssuer(string cardIssuer)
+        public async Task<List<Payment>> GetAllWithInfoAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Payment> GetByCardType(string cardType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Payment GetByOrderId(Guid orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Payment> GetByUserId(Guid userId)
-        {
-            throw new NotImplementedException();
+            return await _table.Include(p => p.Order).ThenInclude(o => o.User).ToListAsync();
         }
     }
 }

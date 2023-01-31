@@ -16,42 +16,24 @@ namespace ProiectDAW.Services.PaymentsService
             _mapper = mapper;
         }
 
-        public async Task CreatePayment(Payment payment)
+        public async Task CreatePayment(Payment request)
         {
-            await _paymentsRepository.CreateAsync(payment);
+            await _paymentsRepository.CreateAsync(request);
             await _paymentsRepository.SaveAsync();
         }
 
-        public async Task<List<PaymentGetDTO>> GetAllPayments()
+        public async Task<List<PaymentGetDTO>> GetPayments()
         {
             var payments = await _paymentsRepository.GetAllAsync();
             List<PaymentGetDTO> result = _mapper.Map<List<PaymentGetDTO>>(payments);
             return result;
         }
 
-        public async Task<Payment> GetPaymentById(Guid id)
+        public async Task<List<PaymentGetInfoDTO>> GetPaymentsWithInfo()
         {
-            return await _paymentsRepository.GetByIdAsync(id);
-        }
-
-        public Task<List<Payment>> GetPaymentsByCardIssuer(string cardIssuer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Payment>> GetPaymentsByCardType(string cardType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Payment> GetPaymentByOrderId(Guid orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Payment>> GetPaymentsByUserId(Guid userId)
-        {
-            throw new NotImplementedException();
+            var payments = await _paymentsRepository.GetAllWithInfoAsync();
+            List<PaymentGetInfoDTO> result = _mapper.Map<List<PaymentGetInfoDTO>>(payments);
+            return result;
         }
 
         public async Task<Payment> UpdatePayment(Guid id, PaymentEditDTO request)

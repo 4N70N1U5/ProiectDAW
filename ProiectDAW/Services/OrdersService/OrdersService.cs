@@ -16,25 +16,34 @@ namespace ProiectDAW.Services.OrdersService
             _mapper = mapper;
         }
 
-        public async Task CreateOrder(Order order)
+        public async Task CreateOrder(Order request)
         {
-            await _ordersRepository.CreateAsync(order);
+            await _ordersRepository.CreateAsync(request);
             await _ordersRepository.SaveAsync();
         }
 
-        public async Task<List<Order>> DeleteOrder(Guid id)
+        public async Task<List<OrderGetDTO>> GetOrders()
         {
-            var orderToDelete = await _ordersRepository.GetByIdAsync(id);
-
-            if (orderToDelete == null) return null;
-
-            _ordersRepository.Delete(orderToDelete);
-            await _ordersRepository.SaveAsync();
-
-            return (await _ordersRepository.GetAllAsync()).ToList();
+            var orders = await _ordersRepository.GetAllAsync();
+            List<OrderGetDTO> result = _mapper.Map<List<OrderGetDTO>>(orders);
+            return result;
         }
 
-        public async Task<Order> EditOrder(Guid id, OrderEditDTO request)
+        public async Task<List<OrderGetInfoDTO>> GetOrdersWithInfo()
+        {
+            var orders = await _ordersRepository.GetAllWithInfoAsync();
+            List<OrderGetInfoDTO> result = _mapper.Map<List<OrderGetInfoDTO>>(orders);
+            return result;
+        }
+
+        public async Task<List<OrderGetInfoPaymentDTO>> GetOrdersWithInfoByUserId(Guid userId)
+        {
+            var orders = await _ordersRepository.GetByUserIdWithInfoAsync(userId);
+            List<OrderGetInfoPaymentDTO> result = _mapper.Map<List<OrderGetInfoPaymentDTO>>(orders);
+            return result;
+        }
+
+        public async Task<Order> UpdateOrder(Guid id, OrderEditDTO request)
         {
             var orderToEdit = await _ordersRepository.GetByIdAsync(id);
 
@@ -48,25 +57,16 @@ namespace ProiectDAW.Services.OrdersService
             return orderToEdit;
         }
 
-        public async Task<Order> GetOrderById(Guid id)
+        public async Task<List<Order>> DeleteOrder(Guid id)
         {
-            return await _ordersRepository.GetByIdAsync(id);
-        }
+            var orderToDelete = await _ordersRepository.GetByIdAsync(id);
 
-        public async Task<List<OrderGetDTO>> GetOrders()
-        {
-            var orders = await _ordersRepository.GetAllAsync();
-            List<OrderGetDTO> result = _mapper.Map<List<OrderGetDTO>>(orders);
-            return result;
-            // return await _ordersRepository.GetAllAsync();
-        }
+            if (orderToDelete == null) return null;
 
-        public async Task<List<OrderGetInfoDTO>> GetOrdersInfo()
-        {
-            var orders = await _ordersRepository.GetAllIncludeInfo();
-            List<OrderGetInfoDTO> result = _mapper.Map<List<OrderGetInfoDTO>>(orders);
-            return result;
-            // return await _ordersRepository.GetAllAsync();
+            _ordersRepository.Delete(orderToDelete);
+            await _ordersRepository.SaveAsync();
+
+            return (await _ordersRepository.GetAllAsync()).ToList();
         }
     }
 }

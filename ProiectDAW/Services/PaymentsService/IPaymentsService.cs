@@ -6,18 +6,14 @@ namespace ProiectDAW.Services.PaymentsService
     public interface IPaymentsService
     {
         // Create
-        Task CreatePayment(Payment payment);
+        Task CreatePayment(Payment request);
 
         // Read
-        Task<List<PaymentGetDTO>> GetAllPayments();
-        Task<Payment> GetPaymentById(Guid id);
-        Task<List<Payment>> GetPaymentsByCardIssuer(string cardIssuer);
-        Task<List<Payment>> GetPaymentsByCardType(string cardType);
-        Task<Payment> GetPaymentByOrderId(Guid orderId);
-        Task<List<Payment>> GetPaymentsByUserId(Guid userId);
+        Task<List<PaymentGetDTO>> GetPayments();
+        Task<List<PaymentGetInfoDTO>> GetPaymentsWithInfo();
 
         // Update
-        Task<Payment> UpdatePayment(Guid id, PaymentEditDTO payment);
+        Task<Payment> UpdatePayment(Guid id, PaymentEditDTO request);
 
         // Delete
         Task<List<Payment>> DeletePayment(Guid id);

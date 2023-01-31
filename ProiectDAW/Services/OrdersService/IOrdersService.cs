@@ -5,14 +5,18 @@ namespace ProiectDAW.Services.OrdersService
 {
     public interface IOrdersService
     {
-        Task CreateOrder(Order order);
+        // Create
+        Task CreateOrder(Order request);
 
+        // Read
         Task<List<OrderGetDTO>> GetOrders();
-        Task<List<OrderGetInfoDTO>> GetOrdersInfo();
-        Task<Order> GetOrderById(Guid id);
+        Task<List<OrderGetInfoDTO>> GetOrdersWithInfo();
+        Task<List<OrderGetInfoPaymentDTO>> GetOrdersWithInfoByUserId(Guid userId);
 
-        Task<Order> EditOrder(Guid id, OrderEditDTO request);
+        // Update
+        Task<Order> UpdateOrder(Guid id, OrderEditDTO request);
 
+        // Delete
         Task<List<Order>> DeleteOrder(Guid id);
     }
 }

@@ -7,19 +7,18 @@ namespace ProiectDAW.Repositories.OrdersRepository
     {
         public OrdersRepository(DataContext context) : base(context) { }
 
-        public async Task<List<Order>> GetAllIncludeInfo()
+        public async Task<List<Order>> GetAllWithInfoAsync()
         {
             return await _table.Include(o => o.Payment).Include(o => o.User).ToListAsync();
         }
 
-        public Task<List<Order>> GetByPurchaseDate(DateOnly date)
+        public async Task<List<Order>> GetByUserIdWithInfoAsync(Guid userId)
         {
-            throw new NotImplementedException();
-        }
+            var result = from order in _table.Include(o => o.Payment)
+                         where order.UserId == userId
+                         select order;
 
-        public Task<List<Order>> GetByUserId(Guid userId)
-        {
-            throw new NotImplementedException();
+            return await result.ToListAsync();
         }
     }
 }

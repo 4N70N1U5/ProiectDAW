@@ -5,8 +5,8 @@ namespace ProiectDAW.Repositories.OrdersRepository
 {
     public interface IOrdersRepository : IGenericRepository<Order>
     {
-        Task<List<Order>> GetAllIncludeInfo();
-        Task<List<Order>> GetByPurchaseDate(DateOnly date);
-        Task<List<Order>> GetByUserId(Guid userId);
+        // Read
+        Task<List<Order>> GetAllWithInfoAsync();
+        Task<List<Order>> GetByUserIdWithInfoAsync(Guid userId);
     }
 }
