@@ -30,7 +30,7 @@ namespace ProiectDAW.Controllers
             return Ok(await _paymentsService.GetPaymentsWithInfo());
         }
 
-        [HttpPost("new-payment")]
+        [HttpPost("new-payment"), Authorize]
         public async Task<ActionResult<Payment>> CreatePayment(PaymentCreateDTO request)
         {
             var newPayment = new Payment()
@@ -48,7 +48,7 @@ namespace ProiectDAW.Controllers
             return Ok(newPayment);
         }
 
-        [HttpPut("edit-payment")]
+        [HttpPut("edit-payment"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<Payment>> Edit(Guid id, PaymentEditDTO request)
         {
             var response = await _paymentsService.UpdatePayment(id, request);
@@ -58,7 +58,7 @@ namespace ProiectDAW.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("delete-payment")]
+        [HttpDelete("delete-payment"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<Payment>>> Delete(Guid id)
         {
             var response = await _paymentsService.DeletePayment(id);
