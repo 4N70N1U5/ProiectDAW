@@ -24,6 +24,7 @@ namespace ProiectDAW.Helpers
             CreateMap<Payment, PaymentGetInfoDTO>();
 
             CreateMap<Publisher, PublisherGetDTO>();
+            CreateMap<Publisher, PublisherGetInfoDTO>();
 
             CreateMap<VideoGame, VideoGameGetDTO>();
         }

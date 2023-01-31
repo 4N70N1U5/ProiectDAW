@@ -5,12 +5,17 @@ namespace ProiectDAW.Services.PublishersService
 {
     public interface IPublishersService
     {
-        public Task CreatePublisher(Publisher publisher);
+        // Create
+        Task CreatePublisher(Publisher request);
 
-        public Task<List<PublisherGetDTO>> GetPublishers();
+        // Read
+        Task<List<PublisherGetDTO>> GetPublishers();
+        Task<List<PublisherGetInfoDTO>> GetPublishersWithInfo();
 
-        public Task<Publisher> UpdatePublisher(Guid id, PublisherCreateEditDTO publisher);
+        // Update
+        Task<Publisher> UpdatePublisher(Guid id, PublisherCreateEditDTO request);
 
-        public Task<List<Publisher>> DeletePublisher(Guid id);
+        // Delete
+        Task<List<Publisher>> DeletePublisher(Guid id);
     }
 }

@@ -19,9 +19,15 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<ActionResult<List<PublisherGetDTO>>> GetNames() 
+        public async Task<ActionResult<List<PublisherGetDTO>>> GetAll() 
         {
             return await _publishersService.GetPublishers();
+        }
+
+        [HttpGet("get-all-with-details")]
+        public async Task<ActionResult<List<PublisherGetInfoDTO>>> GetAllWithDetails()
+        {
+            return await _publishersService.GetPublishersWithInfo();
         }
 
         [HttpPost("new-publisher"), Authorize(Roles = "Admin")]

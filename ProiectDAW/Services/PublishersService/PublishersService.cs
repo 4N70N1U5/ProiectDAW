@@ -16,10 +16,38 @@ namespace ProiectDAW.Services.PublishersService
             _mapper = mapper;
         }
 
-        public async Task CreatePublisher(Publisher publisher)
+        public async Task CreatePublisher(Publisher request)
         {
-            await _publishersRepository.CreateAsync(publisher);
+            await _publishersRepository.CreateAsync(request);
             await _publishersRepository.SaveAsync();
+        }
+
+        public async Task<List<PublisherGetDTO>> GetPublishers()
+        {
+            var publishers = await _publishersRepository.GetAllAsync();
+            List<PublisherGetDTO> result = _mapper.Map<List<PublisherGetDTO>>(publishers);
+            return result;
+        }
+
+        public async Task<List<PublisherGetInfoDTO>> GetPublishersWithInfo()
+        {
+            var publishers = await _publishersRepository.GetAllWithInfoAsync();
+            List<PublisherGetInfoDTO> result = _mapper.Map<List<PublisherGetInfoDTO>>(publishers);
+            return result;
+        }
+
+        public async Task<Publisher> UpdatePublisher(Guid id, PublisherCreateEditDTO request)
+        {
+            var publisherToEdit = await _publishersRepository.GetByIdAsync(id);
+
+            if (publisherToEdit == null) { return null; }
+
+            publisherToEdit.Name = request.Name;
+            publisherToEdit.DateModified = DateTime.UtcNow;
+
+            await _publishersRepository.SaveAsync();
+
+            return publisherToEdit;
         }
 
         public async Task<List<Publisher>> DeletePublisher(Guid id)
@@ -33,27 +61,6 @@ namespace ProiectDAW.Services.PublishersService
             await _publishersRepository.SaveAsync();
 
             return await _publishersRepository.GetAllAsync();
-        }
-
-        public async Task<List<PublisherGetDTO>> GetPublishers()
-        {
-            var publishers = await _publishersRepository.GetAllAsync();
-            List<PublisherGetDTO> result = _mapper.Map<List<PublisherGetDTO>>(publishers);
-            return result;
-        }
-
-        public async Task<Publisher> UpdatePublisher(Guid id, PublisherCreateEditDTO publisher)
-        {
-            var publisherToEdit = await _publishersRepository.GetByIdAsync(id);
-
-            if (publisherToEdit == null) { return null; }
-
-            publisherToEdit.Name = publisher.Name;
-            publisherToEdit.DateModified = DateTime.UtcNow;
-
-            await _publishersRepository.SaveAsync();
-
-            return publisherToEdit;
         }
     }
 }
