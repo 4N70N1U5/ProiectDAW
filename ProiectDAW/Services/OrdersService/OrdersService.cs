@@ -29,6 +29,11 @@ namespace ProiectDAW.Services.OrdersService
             return result;
         }
 
+        public async Task<Order> GetOrderById(Guid id)
+        {
+            return await _ordersRepository.GetByIdAsync(id);
+        }
+
         public async Task<List<OrderGetInfoDTO>> GetOrdersWithInfo()
         {
             var orders = await _ordersRepository.GetAllWithInfoAsync();
@@ -62,6 +67,14 @@ namespace ProiectDAW.Services.OrdersService
             await _ordersRepository.SaveAsync();
 
             return orderToEdit;
+        }
+
+        public async Task UpdateOrderTotal(Order order, int total)
+        {
+            order.OrderTotal += total;
+            order.DateModified = DateTime.UtcNow;
+
+            await _ordersRepository.SaveAsync();
         }
 
         public async Task<List<Order>> DeleteOrder(Guid id)

@@ -29,6 +29,11 @@ namespace ProiectDAW.Services.VideoGameService
             return result;
         }
 
+        public async Task<VideoGame> GetVideoGameById(Guid id)
+        {
+            return await _videoGamesRepository.GetByIdAsync(id);
+        }
+
         public async Task<List<VideoGameGetInfoDTO>> GetVideoGamesWithInfo()
         {
             var videoGames = await _videoGamesRepository.GetAllWithInfoAsync();
