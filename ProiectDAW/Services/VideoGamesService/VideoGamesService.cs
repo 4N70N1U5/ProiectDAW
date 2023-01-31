@@ -43,6 +43,7 @@ namespace ProiectDAW.Services.VideoGameService
             if (gameToEdit == null) return null;
 
             gameToEdit.Title = request.Title;
+            gameToEdit.ReleaseDate = request.ReleaseDate.ToDateTime(TimeOnly.MinValue);
             gameToEdit.Price = request.Price;
             gameToEdit.DateModified = DateTime.UtcNow;
 
