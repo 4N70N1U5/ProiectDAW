@@ -5,25 +5,26 @@ using ProiectDAW.Helpers.Utils;
 using ProiectDAW.Repositories.UsersRepository;
 using BCryptNet = BCrypt.Net.BCrypt;
 using AutoMapper;
+using ProiectDAW.Repositories.UnitOfWork;
 
 namespace ProiectDAW.Services.UsersService
 {
     public class UsersService : IUsersService
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtUtils _jwtUtils;
         private readonly IMapper _mapper;
 
-        public UsersService(IUsersRepository usersRepository, IJwtUtils jwtUtils, IMapper mapper)
+        public UsersService(IUnitOfWork unitOfWork, IJwtUtils jwtUtils, IMapper mapper)
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
             _jwtUtils = jwtUtils;
             _mapper = mapper;
         }
 
         public UserResponseDTO Authenticate(string username, string password)
         {
-            var user = _usersRepository.GetByUsername(username);
+            var user = _unitOfWork._usersRepository.GetByUsername(username);
 
             if (user == null) return null;
             if (!BCryptNet.Verify(password, user.PasswordHash)) return null;
@@ -42,34 +43,34 @@ namespace ProiectDAW.Services.UsersService
 
         public async Task Register(User user)
         {
-            await _usersRepository.CreateAsync(user);
-            await _usersRepository.SaveAsync();
+            await _unitOfWork._usersRepository.CreateAsync(user);
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task<List<UserGetDTO>> GetAllUsers()
         {
-            var users = await _usersRepository.GetAllAsync();
+            var users = await _unitOfWork._usersRepository.GetAllAsync();
             List<UserGetDTO> result = _mapper.Map<List<UserGetDTO>>(users);
             return result;
         }
 
         public async Task<UserGetDTO> GetUserById(Guid id)
         {
-            var user = await _usersRepository.GetByIdAsync(id);
+            var user = await _unitOfWork._usersRepository.GetByIdAsync(id);
             UserGetDTO result = _mapper.Map<UserGetDTO>(user);
             return result;
         }
 
         public async Task<List<UserGetInfoDTO>> GetInfoAllUsers()
         {
-            var users = await _usersRepository.GetAllIncludeOrders();
+            var users = await _unitOfWork._usersRepository.GetAllIncludeOrders();
             List<UserGetInfoDTO> result = _mapper.Map<List<UserGetInfoDTO>>(users); 
             return result;
         }
 
         public async Task<UserGetInfoDTO> GetInfoUserById(Guid id)
         {
-            var user = await _usersRepository.GetByIdIncludeOrders(id);
+            var user = await _unitOfWork._usersRepository.GetByIdIncludeOrders(id);
             UserGetInfoDTO result = _mapper.Map<UserGetInfoDTO>(user);
             return result;
         }
@@ -80,7 +81,7 @@ namespace ProiectDAW.Services.UsersService
 
             if (currentUserId == Guid.Empty) return Guid.Empty;
 
-            var userToEdit = _usersRepository.GetByUsername(username);
+            var userToEdit = _unitOfWork._usersRepository.GetByUsername(username);
 
             if (userToEdit == null) return Guid.Empty;
 
@@ -91,7 +92,7 @@ namespace ProiectDAW.Services.UsersService
             userToEdit.Role = Role.Customer;
             userToEdit.DateModified = DateTime.UtcNow;
 
-            await _usersRepository.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
             return userToEdit.Id;
         }
@@ -102,7 +103,7 @@ namespace ProiectDAW.Services.UsersService
 
             if (currentUserId == Guid.Empty) return Guid.Empty;
 
-            var userToEdit = _usersRepository.GetByUsername(username);
+            var userToEdit = _unitOfWork._usersRepository.GetByUsername(username);
 
             if (userToEdit == null) return Guid.Empty;
 
@@ -113,7 +114,7 @@ namespace ProiectDAW.Services.UsersService
             userToEdit.Role = Role.Admin;
             userToEdit.DateModified = DateTime.UtcNow;
 
-            await _usersRepository.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
             return userToEdit.Id;
         }
@@ -124,17 +125,17 @@ namespace ProiectDAW.Services.UsersService
 
             if (currentUserId == Guid.Empty) return null;
 
-            var userToDelete = _usersRepository.GetByUsername(username);
+            var userToDelete = _unitOfWork._usersRepository.GetByUsername(username);
 
             if (userToDelete == null) return null;
 
             if (userToDelete.Id == currentUserId) return null;
 
-            _usersRepository.Delete(userToDelete);
+            _unitOfWork._usersRepository.Delete(userToDelete);
 
-            await _usersRepository.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
-            return await _usersRepository.GetAllAsync();
+            return await _unitOfWork._usersRepository.GetAllAsync();
         }
     }
 }

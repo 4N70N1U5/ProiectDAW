@@ -9,6 +9,5 @@ namespace ProiectDAW.Repositories.OrderVideoGamesRepository
         Task<List<OrderVideoGame>> GetAllAsync();
         Task<OrderVideoGame> GetByIdsAsync(Guid orderId, Guid videoGameId);
         void Delete(OrderVideoGame request);
-        Task<bool> SaveAsync();
     }
 }

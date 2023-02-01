@@ -33,19 +33,5 @@ namespace ProiectDAW.Repositories.OrderVideoGamesRepository
         {
             _table.Remove(request);
         }
-
-        public async Task<bool> SaveAsync()
-        {
-            try
-            {
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch (SqlException exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-
-            return false;
-        }
     }
 }

@@ -17,7 +17,6 @@ namespace ProiectDAW.Repositories.GenericRepository
         // Delete
         void Delete(TemplateEntity templateEntity);
 
-        // Save
-        Task<bool> SaveAsync();
+        // Save - moved to Unit Of Work
     }
 }

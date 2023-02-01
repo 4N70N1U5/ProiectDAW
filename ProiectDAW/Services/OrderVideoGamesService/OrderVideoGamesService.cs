@@ -1,31 +1,32 @@
 ﻿using ProiectDAW.Models;
 using ProiectDAW.Repositories.OrderVideoGamesRepository;
+using ProiectDAW.Repositories.UnitOfWork;
 
 namespace ProiectDAW.Services.OrderVideoGamesService
 {
     public class OrderVideoGamesService : IOrderVideoGamesService
     {
-        private readonly IOrderVideoGamesRepository _orderVideoGamesRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public OrderVideoGamesService(IOrderVideoGamesRepository orderVideoGamesRepository)
+        public OrderVideoGamesService(IUnitOfWork unitOfWork)
         {
-            _orderVideoGamesRepository = orderVideoGamesRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task CreateOrderVideoGame(OrderVideoGame request)
         {
-            await _orderVideoGamesRepository.CreateAsync(request);
-            await _orderVideoGamesRepository.SaveAsync();
+            await _unitOfWork._orderVideoGamesRepository.CreateAsync(request);
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task<List<OrderVideoGame>> DeleteOrderVideoGame(Guid orderId, Guid videoGameId)
         {
-            var orderVideoGameToDelete = await _orderVideoGamesRepository.GetByIdsAsync(orderId, videoGameId);
+            var orderVideoGameToDelete = await _unitOfWork._orderVideoGamesRepository.GetByIdsAsync(orderId, videoGameId);
 
-            _orderVideoGamesRepository.Delete(orderVideoGameToDelete);
-            await _orderVideoGamesRepository.SaveAsync();
+            _unitOfWork._orderVideoGamesRepository.Delete(orderVideoGameToDelete);
+            await _unitOfWork.SaveAsync();
 
-            return await _orderVideoGamesRepository.GetAllAsync();
+            return await _unitOfWork._orderVideoGamesRepository.GetAllAsync();
         }
     }
 }

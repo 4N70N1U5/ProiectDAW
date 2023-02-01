@@ -43,19 +43,6 @@ namespace ProiectDAW.Repositories.GenericRepository
             _table.Remove(templateEntity);
         }
 
-        // Save
-        public async Task<bool> SaveAsync()
-        {
-            try
-            {
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch (SqlException exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-
-            return false;
-        }
+        // Save - moved to Unit Of Work
     }
 }

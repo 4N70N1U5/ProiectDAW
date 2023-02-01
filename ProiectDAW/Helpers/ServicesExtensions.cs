@@ -3,6 +3,7 @@ using ProiectDAW.Repositories.OrdersRepository;
 using ProiectDAW.Repositories.OrderVideoGamesRepository;
 using ProiectDAW.Repositories.PaymentsRepository;
 using ProiectDAW.Repositories.PublishersRepository;
+using ProiectDAW.Repositories.UnitOfWork;
 using ProiectDAW.Repositories.UsersRepository;
 using ProiectDAW.Repositories.VideoGamesRepository;
 using ProiectDAW.Services.OrdersService;
@@ -24,6 +25,7 @@ namespace ProiectDAW.Helpers
             services.AddTransient<IPublishersRepository, PublishersRepository>();
             services.AddTransient<IVideoGamesRepository, VideoGamesRepository>();
             services.AddTransient<IOrderVideoGamesRepository, OrderVideoGamesRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
